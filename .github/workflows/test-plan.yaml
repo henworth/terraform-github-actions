@@ -64,7 +64,7 @@ jobs:
         uses: ./terraform-plan
         id: plan
         with:
-          path: tests/workflows/test-plan/too_long
+          path: tests/workflows/test-plan/plan
 
       - name: Verify outputs
         run: |
@@ -107,7 +107,7 @@ jobs:
           fi
 
       - name: Test output expressions
-        if: steps.plan.outputs.to_add != 0 || steps.plan.outputs.to_change != 0 || steps.plan.outputs.to_destroy != 0
+        if: steps.plan.outputs.to_add != 1 || steps.plan.outputs.to_change != 0 || steps.plan.outputs.to_destroy != 0
         run: |
           echo "if expression should not have evaluated true"
           exit 1
