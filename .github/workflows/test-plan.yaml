@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Plan too long
     env:
+      TF_PLAN_COMMENT_LENGTH: 1
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout

@@ -165,13 +165,14 @@ def _from_api_payload(comment: dict[str, Any]) -> Optional[TerraformComment]:
 def _to_api_payload(comment: TerraformComment) -> str:
     details_open = False
     hcl_highlighting = False
+    plan_details = 'Plan exceeds comment maximum comment length, please see the link below for the full details.'
 
     if comment.body.startswith('Error'):
         details_open = True
     elif 'Plan:' in comment.body:
         hcl_highlighting = True
         num_lines = len(comment.body.splitlines())
-        if num_lines < collapse_threshold:
+        if num_lines < collapse_threshold or num_lines > comment_length_threshold:
             details_open = True
 
         if num_lines < comment_length_threshold:
@@ -180,9 +181,6 @@ def _to_api_payload(comment: TerraformComment) -> str:
 {comment.body}
 ```
 '''
-        else:
-            details_open = True
-            plan_details = 'Plan exceeds comment maximum comment length, please see the link below for the full details.'
 
     if comment.summary is None:
         details_open = True
